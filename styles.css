@@ -1,0 +1,347 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+    background: url(R.jpg) no-repeat center center/cover;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Page Load Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header */
+.header {
+    background: url(OIP\ \(2\).jpg);
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.header .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    text-decoration: none;
+}
+
+.nav-links li {
+    position: relative;
+    text-decoration: none;
+}
+
+.nav-links a {
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    position: relative;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    background: #007bff;
+    transition: background 0.3s ease;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    background: url(OIP\ \(2\).jpg);
+    color: #fff;
+    padding: 5rem 2rem;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    animation: fadeIn 1.5s ease-in-out;
+    position: relative;
+}
+
+.hero-text h2 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text {
+    z-index: 1;
+}
+
+.hero-image {
+    position: absolute;
+    bottom: 10%;  /* Adjust this value to place the image vertically */
+    right: 5%;    /* Adjust this value to place the image horizontally */
+    width: 150px; /* You can adjust the size of the image */
+    height: auto;
+    border-radius: 10px; /* Optional: Adds rounded corners to the image */
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    color: #fff;
+    background: #007bff;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.glow-on-hover {
+    box-shadow: 0 0 10px #007bff, 0 0 20px #007bff;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Content Sections */
+.content-section {
+    animation: fadeIn 2s ease-in-out;
+    background: rgba(255, 255, 255, 0.1);  /* Semi-transparent white */
+    backdrop-filter: blur(10px);  /* Apply blur effect to the background */
+    border-radius: 15px;  /* Round corners for a smooth glass look */
+    padding: 20px;  /* Space inside the section */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Soft shadow for a glassy effect */
+    color: #fff;  /* Text color */
+    margin: 20px 0;  /* Margin between sections */
+    transition: backdrop-filter 0.3s ease-in-out;  /* Smooth transition effect */
+}
+
+.content-section:hover {
+    backdrop-filter: blur(15px);  /* Increase blur on hover */
+}
+
+.content-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Post Grid */
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.loading {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+
+/* Carousel */
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+/* About Section */
+.about-photo {
+    display: block;
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+/* Contact Section */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input, form textarea, form button {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #007bff;
+    color: #fff;
+    padding: 0.8rem;
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+}
+
+.back-to-top i {
+    font-size: 1.2rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background: url(OIP\ \(2\).jpg);
+    color: #fff;
+    padding: 2rem;
+}
+
+.footer-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-icons a {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.footer-icons a:hover {
+    color: #007bff;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #fff;
+}
+
+body.dark-mode .header {
+    background: #333;
+}
+
+body.dark-mode .nav-links a {
+    color: #fff;
+}
+
+body.dark-mode .hero {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+body.dark-mode .btn {
+    background: #0056b3;
+}
+
+/* Header Background Pattern */
+.header {
+    background: url('pattern.png') repeat;
+    background-size: 20px 20px;
+    color: #fff;
+}
+
+/* Gallery Section */
+#gallery {
+    text-align: center;
+    padding: 40px 0;
+}
+
+#gallery h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  /* Responsive grid */
+    gap: 20px;  /* Space between grid items */
+    justify-items: center;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;  /* Hide overflow for zoom effect */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  /* Soft shadow */
+    transition: transform 0.3s ease-in-out;  /* Smooth zoom effect */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;  /* Smooth zoom effect */
+}
+
+/* Zoom Effect on Hover */
+.gallery-item:hover img {
+    transform: scale(1.1);  /* Zoom in the image */
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);  /* Zoom in the item */
+}
+
+/* Optional: Lightbox effect (click to view larger image) */
+.gallery-item img {
+    cursor: pointer;
+}
+
+.gallery-item img:active {
+    opacity: 0.8;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+.header-logo {
+    width: 70px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 20%; /* Optional: Makes the logo circular */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow */
+}

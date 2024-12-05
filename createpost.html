@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Post</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .create-post-container {
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background: red;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkred;
+    }
+  </style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to the Futuristic Pastor's Blog where faith meets inspiration in a modern way.">
+    <title>Pastor Miracle Okorode</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- JavaScript -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header sticky" aria-label="Main Navigation">
+        
+        <h1 class="logo"><i>Pst Miracle<br> Okorode's Blog</i></h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="home.html" class="nav-item" aria-label="Home">Home</a></li>
+                <li><a href="home.html" class="nav-item" aria-label="Sermons">Sermons</a></li>
+                <li><a href="home.html" class="nav-item" aria-label="Devotionals">Devotionals</a></li>
+                <li><a href="home.html" class="nav-item" aria-label="Events">Events</a></li>
+                <li><a href="home.html" class="nav-item" aria-label="About">About</a></li>
+                <li><a href="home.html" class="nav-item" aria-label="Contact">Contact</a></li>
+                <li><a href="login.html">...</a></li>
+            </ul>
+        </nav>
+        <button id="dark-mode-toggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+    </header>
+</head>
+<body>
+  <div class="create-post-container">
+    <h2>Create a Post</h2>
+    <form id="createPostForm">
+      <input type="text" id="title" placeholder="Title" required />
+      <textarea id="description" placeholder="Description" rows="5" required></textarea>
+      <select id="mediaType" required>
+        <option value="" disabled selected>Select Media Type</option>
+        <option value="image">Image</option>
+        <option value="video">Video</option>
+      </select>
+      <input type="file" id="mediaFile" accept="image/*,video/*" required />
+      <button type="submit">Create Post</button>
+    </form>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+  <script src="config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+    const createPostForm = document.getElementById('createPostForm');
+    const createPostButton = createPostForm.querySelector('button');
+
+    createPostForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const mediaType = document.getElementById('mediaType').value.trim();
+      const mediaFile = document.getElementById('mediaFile').files[0];
+
+      if (!title || !description || !mediaType || !mediaFile) {
+        alert("Please fill in all fields!");
+        return;
+      }
+
+      createPostButton.textContent = "Uploading...";
+      createPostButton.disabled = true;
+
+      try {
+        // Upload file to Firebase Storage
+        const storageRef = storage.ref(`posts/${mediaFile.name}`);
+        const snapshot = await storageRef.put(mediaFile);
+        const downloadURL = await snapshot.ref.getDownloadURL();
+
+        // Add post to Firestore
+        await db.collection('gallery').add({
+          title,
+          description,
+          mediaType,
+          mediaURL: downloadURL,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+
+        alert("Post created successfully!");
+        createPostForm.reset();
+      } catch (error) {
+        console.error("Error creating post: ", error);
+        alert("Failed to create post. Please try again.");
+      } finally {
+        createPostButton.textContent = "Create Post";
+        createPostButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    input {
+      width: calc(100% - 20px);
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: darkred;
+      cursor: pointer;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>Admin Login</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" minlength="6" required />
+    <button type="submit">Login</button>
+  </form>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>  
+  <script src="config.js"></script>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginButton = loginForm.querySelector('button');
+  
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+  
+      loginButton.textContent = "Logging in...";
+      loginButton.disabled = true;
+  
+      try {
+        // Authenticate user
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+  
+        // Verify if the email matches the admin email
+        if (user.email === 'omaduvieewomazino@gmail.com') {
+          alert("Login successful! Redirecting...");
+          window.location.href = "createpost.html"; // Redirect to create post page
+        } else {
+          alert("Unauthorized access! Only admins can log in.");
+          await firebase.auth().signOut();
+        }
+      } catch (error) {
+        console.error("Login error: ", error);
+        alert("Login failed: " + error.message);
+      } finally {
+        loginButton.textContent = "Login";
+        loginButton.disabled = false;
+      }
+    });
+  </script>
+  
+  
+</body>
+</html>

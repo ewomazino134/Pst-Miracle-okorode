@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to the Futuristic Pastor's Blog where faith meets inspiration in a modern way.">
+    <title>Pastor Miracle Okorode</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- JavaScript -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header sticky" aria-label="Main Navigation">
+        
+        <h1 class="logo"><i>Pst Miracle<br> Okorode's Blog</i></h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-item" aria-label="Home">Home</a></li>
+                <li><a href="#sermons" class="nav-item" aria-label="Sermons">Sermons</a></li>
+                <li><a href="#devotionals" class="nav-item" aria-label="Devotionals">Devotionals</a></li>
+                <li><a href="#events" class="nav-item" aria-label="Events">Events</a></li>
+                <li><a href="#about" class="nav-item" aria-label="About">About</a></li>
+                <li><a href="#contact" class="nav-item" aria-label="Contact">Contact</a></li>
+                <li><a href="login.html">...</a></li>
+            </ul>
+        </nav>
+        <button id="dark-mode-toggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-text">
+            <h2>Welcome To My Blog</h2>
+            <p>Where faith meets inspiration in a modern way.</p>
+            <a href="#sermons" class="btn glow-on-hover" aria-label="Explore Sermons">Explore Sermons</a>
+        </div>
+        <img src="your-image-url.jpg" alt="Hero Image" class="hero-image">
+    </section>
+
+    <!-- Content Sections -->
+    <section id="sermons" class="content-section fade-in">
+        <h2>Sermons</h2>
+        <div class="post-grid" id="sermons-placeholder" aria-live="polite">
+            <div class="loading">Loading sermons...</div>
+        </div>
+    </section>
+
+    <section id="devotionals" class="content-section fade-in">
+        <h2>Devotionals</h2>
+        <div class="post-grid" id="devotionals-placeholder" aria-live="polite">
+            <div class="loading">Loading devotionals...</div>
+        </div>
+    </section>
+
+    <section id="events" class="content-section">
+        <h2>Upcoming Events</h2>
+        <div class="carousel">
+            <div class="carousel-item"><img src="IMG-20241202-WA0262.jpg" style="    width: 90%; height: auto; border-radius: 20%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"></div>
+            <div class="carousel-item"><img src=""</div>
+            <div class="carousel-item">Event 3</div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="content-section fade-in">
+        <h2>About the Pastor</h2>
+        <p>Transforming lives through faith, love, and the Word of God, pastor MIRACLE OKORODE,  is a man of God with a heart of gold, who  has been called to spread the love of God to all nations, being a part of the libration mandate of the <strong>APOSTLE</strong> over this commission <strong><i><b>BISHOP DAVID OLANIYI OYEDEPO <sub>Snr</sub></b></i></strong>  handed over to him on the <i>2nd May, 1981</i> by our <strong><i><b>LORD AND SAVIOUR; JESUS CHRIST</b></i></strong>....... <B>PST MIRACLE OKORODE</B> has continued in the strength of <strong>GOD</strong> fulfiling the purpose of the calling upon his life, he has been a blessing to many, and is still a blessingto much more.</p>
+
+
+
+        <img src="IMG-20241202-WA0313.jpg" alt="Pastor's Photo" class="about-photo">
+    </section>
+
+    <section id="gallery" class="content-section fade-in">
+        <h2>Gallery</h2>
+        <div class="filter-links">
+            <a id="filterPhotos" onclick="filterGallery('photos')">Photos</a>
+            <a id="filterVideos" onclick="filterGallery('videos')">Videos</a>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Dynamic content will be injected here -->
+        </div>
+    </section>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script src="config.js"></script>
+    <script>
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const galleryGrid = document.getElementById('galleryGrid');
+    
+        async function loadGallery(filter = 'all') {
+            try {
+                galleryGrid.innerHTML = '<p>Loading gallery...</p>';
+    
+                const listRef = storageRef.child('posts');
+                const result = await listRef.listAll();
+    
+                galleryGrid.innerHTML = '';
+    
+                for (const itemRef of result.items) {
+                    const url = await itemRef.getDownloadURL();
+                    const fileName = itemRef.name;
+    
+                    const galleryItem = document.createElement('div');
+                    galleryItem.classList.add('gallery-item');
+    
+                    if (fileName.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                        if (filter === 'all' || filter === 'photos') {
+                            galleryItem.innerHTML = `<img src="${url}" alt="${fileName}">`;
+                            galleryGrid.appendChild(galleryItem);
+                        }
+                    } else if (fileName.match(/\.(mp4|webm|ogg)$/i)) {
+                        if (filter === 'all' || filter === 'videos') {
+                            galleryItem.innerHTML = `
+                                <video controls>
+                                    <source src="${url}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>`;
+                            galleryGrid.appendChild(galleryItem);
+                        }
+                    }
+                }
+    
+                if (galleryGrid.children.length === 0) {
+                    galleryGrid.innerHTML = '<p>No items available for the selected filter.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                galleryGrid.innerHTML = '<p>Failed to load gallery. Please try again later.</p>';
+            }
+        }
+    
+        function filterGallery(filter) {
+            document.querySelectorAll('.filter-links a').forEach(link => link.classList.remove('active'));
+            document.getElementById(`filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).classList.add('active');
+            loadGallery(filter);
+        }
+    
+        loadGallery();
+    </script>
+    <style>
+        #gallery {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+    
+        .filter-links {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    
+        .filter-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #007BFF;
+            cursor: pointer;
+        }
+    
+        .filter-links a.active {
+            color: #FF0000;
+        }
+    
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+    
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+    
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    
+        #galleryGrid p {
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+    
+
+    <!-- Contact Section -->
+    <section id="contact" class="content-section fade-in">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Your message"></textarea>
+            <button type="submit" class="btn glow-on-hover">Send</button>
+        </form>
+    </section>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop" aria-label="Back to Top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Follow Us on Social Media</p>
+        <div class="footer-icons">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p>&copy; 2024 PST MIRACLE OKORODE. All Rights Reserved.</p>
+    </footer>
+    
+</body>
+</html>
